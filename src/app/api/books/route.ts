@@ -63,7 +63,12 @@ export async function POST(req: NextRequest) {
 
     const book = await prisma.book.create({
       data: {
-        ...data,
+        title: data.title,
+        author: data.author,
+        coverImage: data.coverImage,
+        description: data.description,
+        themes: data.themes.join(', '),
+        status: data.status,
         startDate: data.startDate ? new Date(data.startDate) : null,
         endDate: data.endDate ? new Date(data.endDate) : null,
       }

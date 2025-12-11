@@ -81,10 +81,17 @@ export async function PUT(
     }
 
     const body = await req.json()
+    
+    // Convert themes array to comma-separated string if it's an array
+    const updateData: any = { ...body }
+    if (Array.isArray(body.themes)) {
+      updateData.themes = body.themes.join(', ')
+    }
+    
     const book = await prisma.book.update({
       where: { id: params.id },
       data: {
-        ...body,
+        ...updateData,
         startDate: body.startDate ? new Date(body.startDate) : undefined,
         endDate: body.endDate ? new Date(body.endDate) : undefined,
       }
