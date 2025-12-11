@@ -1,0 +1,40 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- The Power of Now Book Cover -->
+  <defs>
+    <linearGradient id="nowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b45309;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sunGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.3" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="450" fill="url(#nowGradient)"/>
+  
+  <!-- Sun/Circle -->
+  <circle cx="150" cy="120" r="50" fill="url(#sunGradient)"/>
+  
+  <!-- Title -->
+  <text x="150" y="220" font-family="Arial, sans-serif" font-size="38" font-weight="bold" fill="white" text-anchor="middle">
+    THE POWER
+  </text>
+  <text x="150" y="265" font-family="Arial, sans-serif" font-size="38" font-weight="bold" fill="white" text-anchor="middle">
+    OF NOW
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="305" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">
+    A Guide to Spiritual
+  </text>
+  <text x="150" y="328" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">
+    Enlightenment
+  </text>
+  
+  <!-- Author -->
+  <text x="150" y="410" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">
+    ECKHART TOLLE
+  </text>
+</svg>

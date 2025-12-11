@@ -1,0 +1,35 @@
+<svg width="300" height="450" viewBox="0 0 300 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder for The Mountain Is You book cover -->
+  <!-- Replace this with the actual book cover image -->
+  
+  <!-- Background gradient -->
+  <rect width="300" height="450" fill="url(#gradient)"/>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="450" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4c1d95"/>
+      <stop offset="100%" stop-color="#0c4a6e"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Mountain silhouette -->
+  <path d="M0 350 L75 250 L150 300 L225 200 L300 350 Z" fill="#1e293b" opacity="0.5"/>
+  <path d="M0 380 L60 300 L120 340 L180 280 L240 340 L300 380 Z" fill="#1e293b" opacity="0.7"/>
+  
+  <!-- Title -->
+  <text x="150" y="100" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+    THE MOUNTAIN
+  </text>
+  <text x="150" y="140" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+    IS YOU
+  </text>
+  
+  <!-- Author -->
+  <text x="150" y="400" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" opacity="0.9">
+    BRIANNA WIEST
+  </text>
+  
+  <!-- Placeholder note -->
+  <text x="150" y="430" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle" opacity="0.6">
+    Replace with actual book cover
+  </text>
+</svg>

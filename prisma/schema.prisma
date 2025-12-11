@@ -1,0 +1,243 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          String    @default("MEMBER")
+  image         String?
+  bio           String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  comments      Comment[]
+  voiceNotes    VoiceNote[]
+  reflections   Reflection[]
+  galleryPosts  GalleryPost[]
+  quotes        Quote[]
+  
+  @@map("users")
+}
+
+model Book {
+  id              String    @id @default(cuid())
+  title           String
+  author          String
+  coverImage      String?
+  description     String
+  themes          String
+  status          String    @default("UPCOMING")
+  startDate       DateTime?
+  endDate         DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  weeklyPlans     WeeklyPlan[]
+  discussions     Discussion[]
+  liveSession     LiveSession?
+  monthlySummary  MonthlySummary?
+  
+  @@map("books")
+}
+
+model WeeklyPlan {
+  id              String    @id @default(cuid())
+  bookId          String
+  weekNumber      Int
+  title           String
+  focus           String
+  chapters        String
+  startDate       DateTime
+  endDate         DateTime
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  prompts         DiscussionPrompt[]
+  
+  @@unique([bookId, weekNumber])
+  @@map("weekly_plans")
+}
+
+model DiscussionPrompt {
+  id              String    @id @default(cuid())
+  weeklyPlanId    String
+  question        String
+  type            String    @default("REFLECTION")
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  
+  weeklyPlan      WeeklyPlan @relation(fields: [weeklyPlanId], references: [id], onDelete: Cascade)
+  
+  @@map("discussion_prompts")
+}
+
+model Discussion {
+  id              String    @id @default(cuid())
+  bookId          String
+  title           String
+  content         String
+  type            String    @default("GENERAL")
+  isPinned        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  comments        Comment[]
+  
+  @@map("discussions")
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  discussionId    String
+  userId          String
+  content         String
+  parentId        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  discussion      Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent          Comment?   @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies         Comment[]  @relation("CommentReplies")
+  
+  @@map("comments")
+}
+
+model LiveSession {
+  id              String    @id @default(cuid())
+  bookId          String    @unique
+  title           String
+  description     String?
+  scheduledAt     DateTime
+  duration        Int       @default(90)
+  meetingLink     String?
+  summary         String?
+  recordingLink   String?
+  videoUrl        String?
+  videoThumbnail  String?
+  status          String    @default("SCHEDULED")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  
+  @@map("live_sessions")
+}
+
+model MonthlySummary {
+  id              String    @id @default(cuid())
+  bookId          String    @unique
+  keyLessons      String
+  topQuotes       String
+  practicalTakeaways String
+  communityInsights String?
+  pdfUrl          String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  reflections     Reflection[]
+  
+  @@map("monthly_summaries")
+}
+
+model Reflection {
+  id              String    @id @default(cuid())
+  userId          String
+  summaryId       String
+  content         String
+  isPublic        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  summary         MonthlySummary @relation(fields: [summaryId], references: [id], onDelete: Cascade)
+  
+  @@map("reflections")
+}
+
+model VoiceNote {
+  id              String    @id @default(cuid())
+  userId          String
+  title           String?
+  audioUrl        String
+  duration        Int
+  createdAt       DateTime  @default(now())
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("voice_notes")
+}
+
+model VisualContent {
+  id              String    @id @default(cuid())
+  title           String
+  type            String
+  imageUrl        String
+  description     String?
+  relatedBookId   String?
+  createdAt       DateTime  @default(now())
+  
+  @@map("visual_content")
+}
+
+model GalleryPost {
+  id              String    @id @default(cuid())
+  userId          String
+  title           String
+  imageUrl        String
+  category        String
+  description     String?
+  likes           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("gallery_posts")
+}
+
+model Quote {
+  id              String    @id @default(cuid())
+  userId          String
+  bookTitle       String
+  bookAuthor      String
+  quoteText       String
+  pageNumber      String?
+  note            String?
+  isPublic        Boolean   @default(true)
+  likes           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("quotes")
+}
+
+model Newsletter {
+  id              String    @id @default(cuid())
+  title           String
+  subject         String
+  content         String
+  htmlContent     String?
+  featured        String
+  memberSpotlight String?
+  topQuotes       String?
+  upcomingEvents  String?
+  status          String    @default("DRAFT")
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("newsletters")
+}
