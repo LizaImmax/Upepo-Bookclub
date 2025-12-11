@@ -3,23 +3,32 @@ import { prisma } from '@/lib/prisma'
 import Image from 'next/image'
 
 async function getCurrentBook() {
-  return await prisma.book.findFirst({
-    where: { status: 'CURRENT' },
-    include: {
-      weeklyPlans: {
-        orderBy: { weekNumber: 'asc' }
-      },
-      liveSession: true
-    }
-  })
+  try {
+    return await prisma.book.findFirst({
+      where: { status: 'CURRENT' },
+      include: {
+        weeklyPlans: {
+          orderBy: { weekNumber: 'asc' }
+        },
+        liveSession: true
+      }
+    })
+  } catch (error) {
+    console.log('Database not connected yet')
+    return null
+  }
 }
 
 async function getUpcomingBooks() {
-  return await prisma.book.findMany({
-    where: { status: 'UPCOMING' },
-    take: 3,
-    orderBy: { startDate: 'asc' }
-  })
+  try {
+    return await prisma.book.findMany({
+      where: { status: 'UPCOMING' },
+      take: 3,
+      orderBy: { startDate: 'asc' }
+    })
+  } catch (error) {
+    return []
+  }
 }
 
 export default async function Home() {

@@ -7,34 +7,41 @@ export default async function DiscussionsPage({
 }: { 
   searchParams: { bookId?: string } 
 }) {
-  const discussions = await prisma.discussion.findMany({
-    where: searchParams.bookId ? { bookId: searchParams.bookId } : undefined,
-    include: {
-      book: {
-        select: {
-          id: true,
-          title: true,
-          author: true,
+  let discussions: any[] = []
+  let currentBook = null
+
+  try {
+    discussions = await prisma.discussion.findMany({
+      where: searchParams.bookId ? { bookId: searchParams.bookId } : undefined,
+      include: {
+        book: {
+          select: {
+            id: true,
+            title: true,
+            author: true,
+          }
+        },
+        _count: {
+          select: {
+            comments: true
+          }
         }
       },
-      _count: {
-        select: {
-          comments: true
-        }
-      }
-    },
-    orderBy: [
-      { isPinned: 'desc' },
-      { createdAt: 'desc' }
-    ]
-  })
+      orderBy: [
+        { isPinned: 'desc' },
+        { createdAt: 'desc' }
+      ]
+    })
 
-  const currentBook = searchParams.bookId 
-    ? await prisma.book.findUnique({
-        where: { id: searchParams.bookId },
-        select: { id: true, title: true }
-      })
-    : null
+    currentBook = searchParams.bookId 
+      ? await prisma.book.findUnique({
+          where: { id: searchParams.bookId },
+          select: { id: true, title: true }
+        })
+      : null
+  } catch (error) {
+    console.log('Database not connected')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 decorative-pattern">

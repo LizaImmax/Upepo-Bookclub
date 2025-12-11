@@ -3,44 +3,51 @@ import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 
 export default async function SessionsPage() {
-  const upcomingSessions = await prisma.liveSession.findMany({
-    where: {
-      scheduledAt: {
-        gte: new Date()
-      }
-    },
-    include: {
-      book: {
-        select: {
-          id: true,
-          title: true,
-          author: true,
-          coverImage: true,
-        }
-      }
-    },
-    orderBy: { scheduledAt: 'asc' }
-  })
+  let upcomingSessions = []
+  let pastSessions = []
 
-  const pastSessions = await prisma.liveSession.findMany({
-    where: {
-      scheduledAt: {
-        lt: new Date()
-      }
-    },
-    include: {
-      book: {
-        select: {
-          id: true,
-          title: true,
-          author: true,
-          coverImage: true,
+  try {
+    upcomingSessions = await prisma.liveSession.findMany({
+      where: {
+        scheduledAt: {
+          gte: new Date()
         }
-      }
-    },
-    orderBy: { scheduledAt: 'desc' },
-    take: 6
-  })
+      },
+      include: {
+        book: {
+          select: {
+            id: true,
+            title: true,
+            author: true,
+            coverImage: true,
+          }
+        }
+      },
+      orderBy: { scheduledAt: 'asc' }
+    })
+
+    pastSessions = await prisma.liveSession.findMany({
+      where: {
+        scheduledAt: {
+          lt: new Date()
+        }
+      },
+      include: {
+        book: {
+          select: {
+            id: true,
+            title: true,
+            author: true,
+            coverImage: true,
+          }
+        }
+      },
+      orderBy: { scheduledAt: 'desc' },
+      take: 6
+    })
+  } catch (error) {
+    console.log('Database not connected')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 decorative-pattern">

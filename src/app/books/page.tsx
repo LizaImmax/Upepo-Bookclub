@@ -3,24 +3,32 @@ import { prisma } from '@/lib/prisma'
 import Image from 'next/image'
 
 export default async function BooksPage() {
-  const currentBook = await prisma.book.findFirst({
-    where: { status: 'CURRENT' },
-    include: {
-      weeklyPlans: true,
-      liveSession: true
-    }
-  })
+  let currentBook = null
+  let upcomingBooks = []
+  let completedBooks = []
 
-  const upcomingBooks = await prisma.book.findMany({
-    where: { status: 'UPCOMING' },
-    orderBy: { startDate: 'asc' }
-  })
+  try {
+    currentBook = await prisma.book.findFirst({
+      where: { status: 'CURRENT' },
+      include: {
+        weeklyPlans: true,
+        liveSession: true
+      }
+    })
 
-  const completedBooks = await prisma.book.findMany({
-    where: { status: 'COMPLETED' },
-    orderBy: { endDate: 'desc' },
-    take: 6
-  })
+    upcomingBooks = await prisma.book.findMany({
+      where: { status: 'UPCOMING' },
+      orderBy: { startDate: 'asc' }
+    })
+
+    completedBooks = await prisma.book.findMany({
+      where: { status: 'COMPLETED' },
+      orderBy: { endDate: 'desc' },
+      take: 6
+    })
+  } catch (error) {
+    console.log('Database not connected - showing demo content')
+  }
 
   // Recommended books similar to book of the month
   const recommendedBooks = [
