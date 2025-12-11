@@ -76,7 +76,7 @@ export default async function Home() {
         recordingLink: null,
         createdAt: new Date(),
         updatedAt: new Date()
-      }
+      } as any
     }
   }
 
