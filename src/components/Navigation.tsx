@@ -46,7 +46,9 @@ export function Navigation() {
             <div 
               className="relative"
               onMouseEnter={() => setCommunityOpen(true)}
-              onMouseLeave={() => setCommunityOpen(false)}
+              onMouseLeave={() => {
+                setTimeout(() => setCommunityOpen(false), 300)
+              }}
             >
               <button className="hover:text-upepo-600 transition-colors flex items-center gap-1">
                 Community
@@ -55,7 +57,13 @@ export function Navigation() {
                 </svg>
               </button>
               {communityOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                <div 
+                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                  onMouseEnter={() => setCommunityOpen(true)}
+                  onMouseLeave={() => {
+                    setTimeout(() => setCommunityOpen(false), 300)
+                  }}
+                >
                   <Link href="/discussions" className="block px-4 py-2 hover:bg-upepo-50 hover:text-upepo-600 transition-colors">
                     💬 Discussions
                   </Link>
@@ -73,7 +81,9 @@ export function Navigation() {
             <div 
               className="relative"
               onMouseEnter={() => setResourcesOpen(true)}
-              onMouseLeave={() => setResourcesOpen(false)}
+              onMouseLeave={() => {
+                setTimeout(() => setResourcesOpen(false), 300)
+              }}
             >
               <button className="hover:text-upepo-600 transition-colors flex items-center gap-1">
                 Resources
@@ -82,7 +92,13 @@ export function Navigation() {
                 </svg>
               </button>
               {resourcesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                <div 
+                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                  onMouseEnter={() => setResourcesOpen(true)}
+                  onMouseLeave={() => {
+                    setTimeout(() => setResourcesOpen(false), 300)
+                  }}
+                >
                   <Link href="/sessions" className="block px-4 py-2 hover:bg-upepo-50 hover:text-upepo-600 transition-colors">
                     🎙️ Live Sessions
                   </Link>
