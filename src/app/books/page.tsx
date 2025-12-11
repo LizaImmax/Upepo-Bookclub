@@ -3,9 +3,9 @@ import { prisma } from '@/lib/prisma'
 import Image from 'next/image'
 
 export default async function BooksPage() {
-  let currentBook = null
-  let upcomingBooks = []
-  let completedBooks = []
+  let currentBook: any = null
+  let upcomingBooks: any[] = []
+  let completedBooks: any[] = []
 
   try {
     currentBook = await prisma.book.findFirst({
@@ -112,7 +112,7 @@ export default async function BooksPage() {
                   <p className="text-gray-700 mb-6 leading-relaxed">{currentBook.description}</p>
                   <div className="mb-6">
                     <div className="flex flex-wrap gap-2">
-                      {currentBook.themes.split(',').map((theme, idx) => (
+                      {currentBook.themes.split(',').map((theme: string, idx: number) => (
                         <span key={idx} className="bg-gradient-to-r from-upepo-100 to-wind-100 text-upepo-800 px-3 py-2 rounded-full text-sm font-semibold border border-upepo-200 hover:shadow-md transition-shadow">
                           {theme.trim()}
                         </span>

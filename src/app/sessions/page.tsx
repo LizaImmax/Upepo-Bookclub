@@ -3,8 +3,8 @@ import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 
 export default async function SessionsPage() {
-  let upcomingSessions = []
-  let pastSessions = []
+  let upcomingSessions: any[] = []
+  let pastSessions: any[] = []
 
   try {
     upcomingSessions = await prisma.liveSession.findMany({
