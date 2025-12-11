@@ -62,11 +62,30 @@ export default async function BooksPage() {
     }
   ]
 
+  // Demo book if database not connected
+  if (!currentBook) {
+    currentBook = {
+      id: 'demo-1',
+      title: 'The Mountain Is You',
+      author: 'Brianna Wiest',
+      coverImage: '/assets/books/the-mountain-is-you-cover.svg',
+      description: 'This is a book about self-sabotage. Why we do it, when we do it, and how to stop doing it—for good.',
+      themes: 'Self-sabotage, Personal growth, Emotional healing, Self-awareness, Inner transformation',
+      status: 'CURRENT',
+      startDate: new Date('2026-01-01'),
+      endDate: new Date('2026-01-31'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      weeklyPlans: [],
+      liveSession: null
+    }
+  }
+
   // Combine all books for the collection
   const allBooks = [
     ...(currentBook ? [{ ...currentBook, category: 'Book of the Month' }] : []),
-    ...upcomingBooks.map(book => ({ ...book, category: 'Coming Soon' })),
-    ...completedBooks.map(book => ({ ...book, category: 'Completed' })),
+    ...upcomingBooks.map((book: any) => ({ ...book, category: 'Coming Soon' })),
+    ...completedBooks.map((book: any) => ({ ...book, category: 'Completed' })),
     ...recommendedBooks
   ]
 

@@ -32,8 +32,53 @@ async function getUpcomingBooks() {
 }
 
 export default async function Home() {
-  const currentBook = await getCurrentBook()
+  let currentBook = await getCurrentBook()
   const upcomingBooks = await getUpcomingBooks()
+
+  // Demo book if database not connected
+  if (!currentBook) {
+    currentBook = {
+      id: 'demo-1',
+      title: 'The Mountain Is You',
+      author: 'Brianna Wiest',
+      coverImage: '/assets/books/the-mountain-is-you-cover.svg',
+      description: 'This is a book about self-sabotage. Why we do it, when we do it, and how to stop doing it—for good. Coexisting but conflicting needs create self-sabotaging behaviors. This is why we resist efforts to change, often until they feel completely futile. But by extracting crucial insight from our most damaging habits, building emotional intelligence by better understanding our brains and bodies, releasing past experiences at a cellular level, and learning to act as our highest potential future selves, we can step out of our own way and into our potential.',
+      themes: 'Self-sabotage, Personal growth, Emotional healing, Self-awareness, Inner transformation, Mindset, Mental health',
+      status: 'CURRENT',
+      startDate: new Date('2026-01-01'),
+      endDate: new Date('2026-01-31'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      weeklyPlans: [
+        {
+          id: 'week-1',
+          weekNumber: 1,
+          title: 'Understanding Self-Sabotage',
+          focus: 'What is self-sabotage and why do we do it?',
+          chapters: 'Introduction & Chapter 1',
+          startDate: new Date('2026-01-01'),
+          endDate: new Date('2026-01-07'),
+          bookId: 'demo-1',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      ],
+      liveSession: {
+        id: 'session-1',
+        bookId: 'demo-1',
+        title: 'January Book Discussion',
+        description: 'Join us for our monthly discussion',
+        scheduledAt: new Date('2026-01-30T19:00:00'),
+        duration: 90,
+        status: 'SCHEDULED',
+        meetingLink: null,
+        summary: null,
+        recordingLink: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen">
